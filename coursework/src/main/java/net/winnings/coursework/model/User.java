@@ -3,6 +3,7 @@ package net.winnings.coursework.model;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Класс сущности User из базы данных
@@ -33,25 +34,17 @@ public class User {
     /** Поле пути к изображению пользователя */
     private String image;
 
+    /** Поле, в котором хранятся авторизационные данные пользователя */
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
+    private UserLoginData loginData;
+    /** Поле, в котором хранятся все ставки пользователя*/
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<Bet> bets;
+
     /**
      * Конструктор - создание нового пользователя
      */
     public User() {
-    }
-
-    /**
-     * Конструктор - создание нового объекта с определенными значениями
-     * @param surname - фамилия
-     * @param name - имя
-     * @param dateOfBirth - дата рождения
-     * @param moneyScore - денежный счет
-     */
-    public User(String surname, String name, Date dateOfBirth,
-                @Digits(integer = 10, fraction = 2) double moneyScore) {
-        this.surname = surname;
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.moneyScore = moneyScore;
     }
 
     /**
@@ -148,5 +141,34 @@ public class User {
      */
     public void setImage(String image) {
         this.image = image;
+    }
+
+    // TODO написать javadoc
+    public UserLoginData getLoginData() {
+        return loginData;
+    }
+
+    public void setLoginData(UserLoginData loginData) {
+        this.loginData = loginData;
+    }
+
+    public Set<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(Set<Bet> bets) {
+        this.bets = bets;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", moneyScore=" + moneyScore +
+                ", image='" + image + '\'' +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package net.winnings.coursework.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 /**
  * Класс сущности SportMatch из базы данных
@@ -31,25 +32,13 @@ public class SportMatch {
     @Column(nullable = false)
     private boolean isEnd;
 
+    /** Поле, в котором хранятся все ставки на данный матч*/
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<Bet> bets;
     /**
      * Конструктор - создание нового пользователя
      */
     public SportMatch() {
-    }
-
-    /**
-     * Конструктор - создание нового объекта с определенными значениями
-     * @param name - имя матча
-     * @param dateOfMatch - дата начала матча
-     * @param firstCoefficient - коэффициент на первую команду
-     * @param secondCoefficient - коэффициент на вторую команду
-     */
-    public SportMatch(String name, Date dateOfMatch, float firstCoefficient, float secondCoefficient) {
-        this.name = name;
-        this.dateOfMatch = dateOfMatch;
-        this.firstCoefficient = firstCoefficient;
-        this.secondCoefficient = secondCoefficient;
-        this.isEnd = false;
     }
 
     /**
@@ -146,5 +135,26 @@ public class SportMatch {
      */
     public void setEnd(boolean end) {
         isEnd = end;
+    }
+
+    // TODO написать javadoc
+    public Set<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(Set<Bet> bets) {
+        this.bets = bets;
+    }
+
+    @Override
+    public String toString() {
+        return "SportMatch{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dateOfMatch=" + dateOfMatch +
+                ", firstCoefficient=" + firstCoefficient +
+                ", secondCoefficient=" + secondCoefficient +
+                ", isEnd=" + isEnd +
+                '}';
     }
 }

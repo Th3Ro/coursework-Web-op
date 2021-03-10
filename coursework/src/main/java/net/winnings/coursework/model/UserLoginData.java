@@ -21,26 +21,15 @@ public class UserLoginData {
     /** Поле пароля пользователя */
     @Column(nullable = false)
     private String userPassword;
-    /** Поле идентификатора пользователя, которому принадлежат эти данные */
-    @Column(nullable = false)
-    private Long userId;
+
+    /** Поле, в котором хранится сущность пользователя */
+    @OneToOne(optional = true, cascade = CascadeType.PERSIST)
+    private User user;
 
     /**
      * Конструктор - создание нового пользователя
      */
     public UserLoginData() {
-    }
-
-    /**
-     * Конструктор - создание нового объекта с определенными значениями
-     * @param userLogin - логин
-     * @param userPassword - пароль
-     * @param userId - идентификатор пользователя, которому принадлежат эти данные
-     */
-    public UserLoginData(String userLogin, String userPassword, Long userId) {
-        this.userLogin = userLogin;
-        this.userPassword = userPassword;
-        this.userId = userId;
     }
 
     /**
@@ -91,19 +80,21 @@ public class UserLoginData {
         this.userPassword = userPassword;
     }
 
-    /**
-     * Функция получения значения поля {@link UserLoginData#userId}
-     * @return возвращает идентификатор пользователя, которому принадлежат эти данные
-     */
-    public Long getUserId() {
-        return userId;
+    // TODO написать javadoc
+    public User getUser() {
+        return user;
     }
 
-    /**
-     * Процедура определения идентификатора пользователя, которому принадлежат эти данные {@link UserLoginData#userId}
-     * @param userId - идентификатор пользователя, которому принадлежат эти данные
-     */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "UserLoginData{" +
+                "id=" + id +
+                ", userLogin='" + userLogin + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                '}';
     }
 }

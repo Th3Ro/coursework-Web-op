@@ -14,10 +14,6 @@ public class Bet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    /** Поле идентификатора матча */
-    private Long matchId;
-    /** Поле идентификатора пользователя */
-    private Long userId;
     /** Поле номера команды */
     private byte teamNumber;
     /** Поле суммы ставки */
@@ -25,25 +21,17 @@ public class Bet {
     /** Поле результата ставки */
     private byte winResult;
 
+    /** Поле, в котором хранится пользователь, сделавший ставку */
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private User user;
+    /** Поле, в котором хранится матч, на который сделали ставку */
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private SportMatch sportMatch;
+
     /**
      * Конструктор - создание нового пользователя
      */
     public Bet() {
-    }
-
-    /**
-     * Конструктор - создание нового объекта с определенными значениями
-     * @param matchId - идентификатор матча
-     * @param userId - идентификатор пользователя
-     * @param teamNumber - номер команды
-     * @param money - сумма ставки
-     */
-    public Bet(Long matchId, Long userId, byte teamNumber, int money) {
-        this.matchId = matchId;
-        this.userId = userId;
-        this.teamNumber = teamNumber;
-        this.money = money;
-        this.winResult = 0;
     }
 
     /**
@@ -60,38 +48,6 @@ public class Bet {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * Функция получения значения поля {@link Bet#matchId}
-     * @return возвращает идентификатор матча
-     */
-    public Long getMatchId() {
-        return matchId;
-    }
-
-    /**
-     * Процедура определения идентификатора матча {@link Bet#matchId}
-     * @param matchId - идентификатор матча
-     */
-    public void setMatchId(Long matchId) {
-        this.matchId = matchId;
-    }
-
-    /**
-     * Функция получения значения поля {@link Bet#userId}
-     * @return возвращает идентификатор пользователя
-     */
-    public Long getUserId() {
-        return userId;
-    }
-
-    /**
-     * Процедура определения идентификатора пользователя {@link Bet#userId}
-     * @param userId - идентификатор пользователя
-     */
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     /**
@@ -139,5 +95,32 @@ public class Bet {
      */
     public void setMoney(int money) {
         this.money = money;
+    }
+
+    // TODO написать javadoc
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public SportMatch getSportMatch() {
+        return sportMatch;
+    }
+
+    public void setSportMatch(SportMatch sportMatch) {
+        this.sportMatch = sportMatch;
+    }
+
+    @Override
+    public String toString() {
+        return "Bet{" +
+                "id=" + id +
+                ", teamNumber=" + teamNumber +
+                ", money=" + money +
+                ", winResult=" + winResult +
+                '}';
     }
 }
